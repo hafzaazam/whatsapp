@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Busistree WhatsApp Bot</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="brand">
+      <div class="logo-circle">🚀</div>
+      <div class="brand-text">
+        <h1>Busistree</h1>
+        <p>WhatsApp Order & Client Bot</p>
+      </div>
+    </div>
+    <div class="toggle-wrap">
+      <label class="switch" title="Enable or pause automated order sending">
+        <input type="checkbox" id="toggleEnabled" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
+
+  <!-- Status Bar -->
+  <div class="status-cards">
+    <div class="card status-item">
+      <span class="status-indicator active" id="sysIndicator"></span>
+      <div class="status-info">
+        <span class="label">System</span>
+        <strong id="sysStatusText">Monitoring Orders</strong>
+      </div>
+    </div>
+    <div class="card status-item">
+      <span class="icon">💼</span>
+      <div class="status-info">
+        <span class="label">Sent Today</span>
+        <strong id="sentCount">0</strong>
+      </div>
+    </div>
+    <div class="card status-item">
+      <span class="icon">⏳</span>
+      <div class="status-info">
+        <span class="label">Queue</span>
+        <strong id="queueCount">0 pending</strong>
+      </div>
+    </div>
+    <div class="card status-item">
+      <span class="icon">🤖</span>
+      <div class="status-info">
+        <span class="label">AI Assistant</span>
+        <strong id="aiStatusText">Basic Mode</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <nav class="nav-tabs">
+    <button class="tab-btn active" data-tab="tab-logs">Live Activity</button>
+    <button class="tab-btn" data-tab="tab-events">Event Triggers</button>
+    <button class="tab-btn" data-tab="tab-template">Templates</button>
+    <button class="tab-btn" data-tab="tab-test">Quick Test</button>
+    <button class="tab-btn" data-tab="tab-settings">Settings</button>
+  </nav>
+
+  <!-- Tab 1: Live Activity Logs -->
+  <section id="tab-logs" class="tab-content active">
+    <div class="section-header">
+      <h2>Recent Notifications</h2>
+      <div style="display: flex; gap: 6px;">
+        <button id="btnClearQueue" class="btn-sm" style="background:#dc2626; color:#fff;" title="Immediately stop sending and clear active queue">🛑 Clear Queue</button>
+        <button id="btnCheckNow" class="btn-sm" title="Manually poll store for pending orders now">↻ Check Now</button>
+      </div>
+    </div>
+    <div id="logsContainer" class="logs-list">
+      <div class="empty-state">No order notifications sent yet. When bundle orders are received or change status, they will be sent automatically.</div>
+    </div>
+  </section>
+
+  <!-- Tab 2: Event Triggers -->
+  <section id="tab-events" class="tab-content">
+    <div class="section-header">
+      <h2>Automatic Notification Triggers</h2>
+    </div>
+    <p class="help-text">Choose when the bot automatically sends a WhatsApp message to the customer:</p>
+
+    <div class="event-toggles">
+      <label class="event-checkbox">
+        <input type="checkbox" id="evtReceived" checked>
+        <div class="event-details">
+          <strong>📥 New Order Placed (Confirmation)</strong>
+          <span>Sent as soon as customer books a service bundle on busistree.com</span>
+        </div>
+      </label>
+
+      <label class="event-checkbox">
+        <input type="checkbox" id="evtContacted" checked>
+        <div class="event-details">
+          <strong>📞 Client Contacted / Briefing</strong>
+          <span>Sent when order status changes to "contacted"</span>
+        </div>
+      </label>
+
+      <label class="event-checkbox">
+        <input type="checkbox" id="evtInProgress" checked>
+        <div class="event-details">
+          <strong>💻 Work In Progress</strong>
+          <span>Sent when project status changes to "in_progress"</span>
+        </div>
+      </label>
+
+      <label class="event-checkbox">
+        <input type="checkbox" id="evtFulfilled" checked>
+        <div class="event-details">
+          <strong>🚀 Order Fulfilled & Delivered</strong>
+          <span>Sent when project deliverables are successfully completed</span>
+        </div>
+      </label>
+
+      <label class="event-checkbox">
+        <input type="checkbox" id="evtCancelled" checked>
+        <div class="event-details">
+          <strong>❌ Order Cancelled</strong>
+          <span>Sent if an order is marked as cancelled with support link</span>
+        </div>
+      </label>
+    </div>
+
+    <div class="btn-row" style="margin-top: 14px;">
+      <button id="btnSaveEvents" class="btn-primary full-width">Save Event Triggers</button>
+    </div>
+  </section>
+
+  <!-- Tab 3: Message Templates -->
+  <section id="tab-template" class="tab-content">
+    <div class="section-header">
+      <h2>Message Templates</h2>
+    </div>
+    
+    <div class="form-group">
+      <label for="templateSelector">Select Event to Edit:</label>
+      <select id="templateSelector" class="form-select">
+        <option value="received">📥 New Order Received</option>
+        <option value="contacted">📞 Client Contacted / Briefing</option>
+        <option value="in_progress">💻 Work In Progress</option>
+        <option value="fulfilled">🚀 Order Fulfilled / Delivered</option>
+        <option value="cancelled">❌ Order Cancelled</option>
+      </select>
+    </div>
+
+    <p class="help-text">Click any tag below to insert it into your message:</p>
+    <div class="tags-container">
+      <span class="tag-chip" data-tag="{customer_name}">{customer_name}</span>
+      <span class="tag-chip" data-tag="{order_number}">{order_number}</span>
+      <span class="tag-chip" data-tag="{bundle_name}">{bundle_name}</span>
+      <span class="tag-chip" data-tag="{business_name}">{business_name}</span>
+      <span class="tag-chip" data-tag="{total}">{total}</span>
+      <span class="tag-chip" data-tag="{currency}">{currency}</span>
+      <span class="tag-chip" data-tag="{payment_method}">{payment_method}</span>
+      <span class="tag-chip" data-tag="{payment_status}">{payment_status}</span>
+      <span class="tag-chip" data-tag="{order_date}">{order_date}</span>
+      <span class="tag-chip" data-tag="{customer_email}">{customer_email}</span>
+      <span class="tag-chip" data-tag="{portal_url}">{portal_url}</span>
+    </div>
+
+    <textarea id="templateText" rows="10" spellcheck="false"></textarea>
+
+    <div class="btn-row">
+      <button id="btnResetTemplate" class="btn-secondary">Reset to Default</button>
+      <button id="btnSaveTemplate" class="btn-primary">Save Template</button>
+    </div>
+  </section>
+
+  <!-- Tab 4: Quick Test -->
+  <section id="tab-test" class="tab-content">
+    <div class="section-header">
+      <h2>Test WhatsApp Web Sending</h2>
+    </div>
+    <p class="help-text">Send a simulated message to your mobile number to test WhatsApp Web automation.</p>
+    
+    <div class="form-group">
+      <label for="testEventSelector">Notification Type</label>
+      <select id="testEventSelector" class="form-select">
+        <option value="received">Order Received</option>
+        <option value="contacted">Client Contacted</option>
+        <option value="in_progress">In Progress</option>
+        <option value="fulfilled">Order Fulfilled</option>
+        <option value="cancelled">Order Cancelled</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="testPhone">Your WhatsApp Mobile Number</label>
+      <input type="text" id="testPhone" placeholder="e.g. 03034448822 or 923034448822">
+    </div>
+
+    <div class="form-group">
+      <label for="testOrderNumber">Sample Order Ref #</label>
+      <input type="text" id="testOrderNumber" value="BT-7A39F210">
+    </div>
+
+    <button id="btnSendTest" class="btn-primary full-width">🚀 Send Test via WhatsApp Web</button>
+    <div id="testFeedback" class="feedback-msg"></div>
+  </section>
+
+  <!-- Tab 5: Settings -->
+  <section id="tab-settings" class="tab-content">
+    <div class="section-header">
+      <h2>Bot & Store Connection Settings</h2>
+    </div>
+
+    <div class="form-group">
+      <label for="cfgBackendMode">Backend Source</label>
+      <select id="cfgBackendMode" class="form-select">
+        <option value="wordpress" selected>WordPress / WooCommerce (Recommended)</option>
+        <option value="supabase">Supabase Database (Legacy)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="toggleAutoReply">
+        Enable WhatsApp chat auto-replies
+      </label>
+      <small class="hint">Off by default. When enabled, the bot answers incoming messages in the currently open direct chat using verified WooCommerce catalog, policy and order data. Orders are created only after the customer confirms the final summary.</small>
+    </div>
+
+    <!-- WordPress Settings Group -->
+    <div id="groupWordPress" class="settings-group">
+      <div class="form-group">
+        <label for="cfgWpUrl">WordPress Store URL</label>
+        <input type="text" id="cfgWpUrl" placeholder="https://busistree.com">
+        <small class="hint">The website URL where the Busistree WordPress plugin is installed.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="cfgWpKey">Plugin API Key</label>
+        <input type="password" id="cfgWpKey" placeholder="bwa_xxxxxxxxxxxxxxxxxxxx">
+        <small class="hint">Found in WordPress Admin &gt; WhatsApp Bot &gt; Extension Connection.</small>
+      </div>
+
+      <div class="form-group" style="margin-top: 10px;">
+        <button type="button" id="btnTestWp" class="btn-secondary full-width">🔍 Test WordPress Connection</button>
+        <div id="wpTestFeedback" class="feedback-msg" style="margin-top: 6px;"></div>
+      </div>
+    </div>
+
+    <!-- Supabase Settings Group -->
+    <div id="groupSupabase" class="settings-group" style="display: none;">
+      <div class="form-group">
+        <label for="cfgSupabaseUrl">Supabase URL</label>
+        <input type="text" id="cfgSupabaseUrl">
+      </div>
+
+      <div class="form-group">
+        <label for="cfgSupabaseKey">Supabase Key (Service Role Key)</label>
+        <input type="password" id="cfgSupabaseKey">
+        <small class="hint">The Service Role Key bypasses Row Level Security so all orders can be read.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="cfgOrdersTable">Orders Table Name</label>
+        <input type="text" id="cfgOrdersTable" value="bundle_orders">
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 15px;">
+      <label for="cfgDelay">Delay Between Messages (seconds)</label>
+      <input type="number" id="cfgDelay" min="3" max="60" value="8">
+      <small class="hint">Recommended: 6-10 seconds to keep WhatsApp Web sending natural and safe.</small>
+    </div>
+
+    <div class="btn-row">
+      <button id="btnClearCache" class="btn-secondary" title="Clears recorded tracking state so recent orders can be re-evaluated">Reset Tracking</button>
+      <button id="btnSaveSettings" class="btn-primary">Save Settings</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>Busistree (busistree.com) &bull; Manifest V3 Bot</span>
+    <span id="versionText">v1.1.0</span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
