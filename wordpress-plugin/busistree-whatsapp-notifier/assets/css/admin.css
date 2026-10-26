@@ -1,0 +1,277 @@
+.bwa-admin-wrap {
+    max-width: 1100px;
+    margin-top: 20px;
+}
+
+.bwa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0f172a;
+    color: #fff;
+    padding: 20px 24px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.bwa-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.bwa-icon {
+    font-size: 32px;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 10px;
+    padding: 8px 12px;
+}
+
+.bwa-header h2 {
+    color: #f8fafc;
+    margin: 0 0 4px 0;
+    font-size: 22px;
+}
+
+.bwa-subtitle {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+.bwa-stats-pill {
+    background: #1e293b;
+    border: 1px solid #334155;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 13px;
+    color: #e2e8f0;
+}
+
+.bwa-stats-pill .sep {
+    color: #475569;
+    margin: 0 8px;
+}
+
+.text-success { color: #22c55e; }
+.text-danger  { color: #ef4444; }
+
+.bwa-nav-tabs {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #cbd5e1;
+}
+
+.bwa-nav-tabs .nav-tab {
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 16px;
+}
+
+.bwa-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.bwa-card h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #0f172a;
+}
+
+.bwa-copy-input {
+    display: flex;
+    gap: 10px;
+    max-width: 650px;
+    margin-top: 6px;
+}
+
+.bwa-copy-input input {
+    flex: 1;
+    font-family: monospace;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    padding: 6px 12px;
+}
+
+.bwa-field-group {
+    margin-bottom: 16px;
+}
+
+.bwa-step-list {
+    line-height: 1.8;
+    color: #334155;
+    padding-left: 20px;
+}
+
+.bwa-checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.bwa-checkbox-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.bwa-checkbox-item:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.bwa-checkbox-item input {
+    margin-top: 4px;
+}
+
+.bwa-checkbox-item p.description {
+    margin: 4px 0 0 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.bwa-tags-container {
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+}
+
+.bwa-tag-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.bwa-chip {
+    background: #e2e8f0;
+    color: #0f172a;
+    font-family: monospace;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+}
+
+.bwa-chip:hover {
+    background: #22c55e;
+    color: #fff;
+}
+
+.bwa-template-box {
+    margin-bottom: 24px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 20px;
+}
+
+.bwa-template-box h4 {
+    margin: 0 0 8px 0;
+    font-size: 15px;
+    color: #1e293b;
+}
+
+.bwa-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.bwa-badge-success { background: #dcfce7; color: #15803d; }
+.bwa-badge-danger  { background: #fee2e2; color: #b91c1c; }
+.bwa-badge-pending { background: #fef3c7; color: #b45309; }
+
+.bwa-btn-wa {
+    background: #25D366 !important;
+    border-color: #1ebd5b !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+}
+
+.bwa-btn-wa:hover {
+    background: #1ebd5b !important;
+}
+
+.bwa-empty-notice {
+    padding: 30px;
+    text-align: center;
+    color: #64748b;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1;
+}
+
+/* Download Cards Grid */
+.bwa-download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.bwa-download-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bwa-download-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+    border-color: #cbd5e1;
+}
+
+.bwa-download-card h4 {
+    margin: 8px 0 6px 0;
+    font-size: 16px;
+    color: #0f172a;
+}
+
+.bwa-download-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.bwa-badge-desktop { background: #dbeafe; color: #1e40af; }
+.bwa-badge-mobile { background: #dcfce7; color: #166534; }
+.bwa-badge-extension { background: #fef3c7; color: #92400e; }
+
+.bwa-feature-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0 0;
+}
+
+.bwa-feature-bullets li {
+    font-size: 12px;
+    color: #334155;
+    margin-bottom: 6px;
+}
